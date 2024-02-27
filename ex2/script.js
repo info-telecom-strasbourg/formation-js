@@ -12,11 +12,15 @@ const fetch_data = async (url) => {
       icon.alt = data.weather[0].description;
 
       document.querySelector("#desc").innerText = data.weather[0].description;
-      document.querySelector("#humidity").innerText = `${data.main.humidity}%`;
-      document.querySelector("#wind").innerText = `${data.wind.speed}km/h`;
+      document.querySelector(
+        "#humidity"
+      ).innerHTML = `Humidité : <span>${data.main.humidity}%</span>`;
+      document.querySelector(
+        "#wind"
+      ).innerHTML = `Vent : <span>${data.wind.speed}km/h</span>`;
       document.querySelector(
         "#pressure"
-      ).innerText = `${data.main.pressure}hPa`;
+      ).innerHTML = `Pression : <span>${data.main.pressure}hPa</span>`;
     })
     .catch((err) => {
       alert("Erreur lors de la récupération des données");
