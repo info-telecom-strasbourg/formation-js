@@ -29,3 +29,10 @@ const city_name = "Paris";
 const url = `https://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${key}&units=metric&lang=fr`;
 
 fetch_data(url);
+
+document.querySelector("#city-select").addEventListener("change", () => {
+  const city_name = document.querySelector("#city-select").value;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${key}&units=metric&lang=fr`;
+
+  fetch_data(url);
+});
