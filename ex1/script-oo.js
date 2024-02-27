@@ -1,69 +1,63 @@
 class Timer {
-  constructor(timerElement) {
-    this.value = 0;
-    this.element = timerElement;
+  constructor(HTMLElement) {
+    this.element = HTMLElement;
+    this.time = 0;
     this.isPlaying = false;
     this.interval = null;
   }
 
-  start() {
-    if (this.isPlaying) return;
-
-    this.isPlaying = true;
-    this.interval = setInterval(() => {
-      this.update();
-    }, 1000);
-    this.updateButtons();
+  get time() {
+    return this._time;
   }
 
-  pause() {
-    if (!this.isPlaying) return;
-
-    this.isPlaying = false;
-    clearInterval(this.interval);
-    this.updateButtons();
+  set time(value) {
+    this._time = value;
+    this.element.textContent = this.formatTimer(this.value);
   }
 
-  reset() {
-    this.setTimerValue(0);
-    this.pause();
+  get isPlaying() {
+    return this._isPlaying;
   }
 
-  setTimerValue(value) {
-    this.value = value;
-    this.element.textContent = formatTimer(value);
+  set isPlaying(value) {
+    this._isPlaying = value;
+    playButton.disabled = value;
+    pauseButton.disabled = !value;
   }
 
-  update() {
-    if (this.isPlaying) this.setTimerValue(this.value + 1);
-  }
+  formatTimer() {
+    const minutes = Math.floor(this.time / 60);
+    const seconds = this._time % 60;
 
-  updateButtons() {
-    playButton.disabled = this.isPlaying;
-    pauseButton.disabled = !this.isPlaying;
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+    const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
+
+    return `${formattedMinutes}:${formattedSeconds}`;
   }
 }
 
-const formatTimer = (timerValue) => {
-  const minutes = Math.floor(timerValue / 60);
-  const seconds = timerValue % 60;
+const playButton = document.getElementById("play");
+const pauseButton = document.getElementById("pause");
+const resetButton = document.getElementById("reset");
+const timerDisplay = document.getElementById("timer");
 
-  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-  const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
+const timer = new Timer(timerDisplay);
 
-  return `${formattedMinutes}:${formattedSeconds}`;
-};
+playButton.addEventListener("click", () => {
+  if (timer.isPlaying) return;
+  timer.isPlaying = true;
+  timer.interval = setInterval(() => {
+    timer.time++;
+  }, 1000);
+});
 
-// Récupération des éléments du DOM
-const playButton = document.querySelector("#play");
-const pauseButton = document.querySelector("#pause");
-const resetButton = document.querySelector("#reset");
-const timer = document.querySelector("#timer");
+pauseButton.addEventListener("click", () => {
+  timer.isPlaying = false;
+  clearInterval(timer.interval);
+});
 
-// Création de l'objet Timer
-const timerObject = new Timer(timer);
-
-// Gestion des événements
-playButton.addEventListener("click", timerObject.start);
-pauseButton.addEventListener("click", timerObject.pause);
-resetButton.addEventListener("click", timerObject.reset);
+resetButton.addEventListener("click", () => {
+  timer.time = 0;
+  timer.isPlaying = false;
+  clearInterval(timer.interval);
+});
