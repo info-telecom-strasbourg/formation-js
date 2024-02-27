@@ -76,3 +76,7 @@ button:focus {
   outline: rgba(9, 66, 144, 1) solid 2px;
   border: white solid 2px;
 }
+
+button:disabled {
+  opacity: 0.3;
+}
