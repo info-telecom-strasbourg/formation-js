@@ -11,11 +11,11 @@ Vous pouvez retrouver les sujets des exercices sur le wiki :
 Vous pouvez récupérer le support des exercices dans la branch `main` de ce dépôt :
 
 ```bash
-git clone -b main
+git clone -b main https://github.com/info-telecom-strasbourg/formation-js
 ```
 
 Les corrections des exercices sont disponibles dans la branch `solution` :
 
 ```bash
-git clone -b solution
+git clone -b solution https://github.com/info-telecom-strasbourg/formation-js
 ```
